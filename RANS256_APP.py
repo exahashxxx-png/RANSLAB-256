@@ -3,11 +3,11 @@ import streamlit as st
 from ipfs_engine import fetch_from_ipfs, push_to_ipfs
 from ranslab_256 import decrypt_file_bytes, encrypt_file_bytes
 
-# 1. STREAMLIT PAGE CONFIG (MELEBAR/WIDE BIAR PAS SAMA BACKGROUND)
+# 1. STREAMLIT PAGE CONFIG (MODE CENTERED)
 st.set_page_config(
     page_title="RANSLAB-256 Vault",
     page_icon="shield_logo.png",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="collapsed",
 )
 
@@ -42,7 +42,18 @@ st.markdown(
 
 {bg_style}
 
-/* BIKIN TEKS LABEL INPUT JADI CYAN NEON MENYALA */
+/* HAPUS JIDAT KOSONG (PAD PADDING ATAS & MUTE STREAMLIT HEADER) */
+header[data-testid="stHeader"] {{
+    background: transparent !important;
+}}
+
+.main .block-container {{
+    padding-top: 1rem !important;
+    padding-bottom: 2rem !important;
+    max-width: 800px !important;
+}}
+
+/* TEKS LABEL INPUT CYAN NEON MENYALA */
 label, .stWidgetLabel, label p {{
     color: #00e5ff !important;
     font-family: 'Share Tech Mono', monospace !important;
@@ -60,9 +71,10 @@ p, input, button, .stButton>button {{
     font-family: 'Share Tech Mono', monospace !important;
 }}
 
+/* HEADER TITLE & SUBTITLE */
 .cyber-header {{
     text-align: center;
-    padding: 10px 0 20px 0;
+    padding: 0px 0 15px 0;
 }}
 
 .cyber-title {{
@@ -77,24 +89,25 @@ p, input, button, .stButton>button {{
 .cyber-subtitle {{
     color: #00e5ff;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     letter-spacing: 3px;
-    margin-top: 5px;
+    margin-top: 2px;
 }}
 
+/* TAB STYLE */
 .stTabs [data-baseweb="tab-list"] {{
-    gap: 15px;
+    gap: 12px;
     justify-content: center;
 }}
 
 .stTabs [data-baseweb="tab"] {{
-    height: 50px;
+    height: 48px;
     white-space: pre-wrap;
-    background-color: rgba(15, 23, 42, 0.8);
+    background-color: rgba(15, 23, 42, 0.85);
     border-radius: 8px 8px 0px 0px;
     color: #94a3b8;
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     border: 1px solid rgba(0, 229, 255, 0.3);
 }}
 
@@ -105,11 +118,11 @@ p, input, button, .stButton>button {{
     box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
 }}
 
-/* CONTAINER AGAR TIDAK TERLALU MENTOK PINGGIR TAPI MELEBAR PROPORSIONAL */
-.main .block-container {{
-    max-width: 900px;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+/* COPY CODE BOX STYLING */
+div[data-testid="stCodeBlock"] {{
+    border: 1px solid #00e5ff !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3) !important;
 }}
 </style>
 """,
@@ -132,8 +145,6 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-
-st.write("")
 
 # 5. MAIN VAULT TABS
 tab_enc, tab_dec = st.tabs([
@@ -166,7 +177,9 @@ with tab_enc:
 
           if cid:
             st.success("✅ VAULT LOCK SUCCESSFUL!")
-            st.code(f"IPFS CID: {cid}", language="text")
+            st.write("📋 **YOUR IPFS CID (CLICK ICON TO COPY):**")
+            st.code(cid, language="text")
+
             st.info(
                 "Keep this CID and your Master Passphrase safe. Without both,"
                 " data recovery is mathematically impossible."
