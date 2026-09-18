@@ -208,24 +208,26 @@ with tab_dec:
         try:
           encrypted_data = fetch_from_ipfs(cid_input)
           if encrypted_data:
-            decrypted_bytes, orig_filename, *rest = decrypt_file_bytes(
+            # Sesuai fungsi asli ranslab_256: return is_success, decrypted_bytes, original_filename
+            is_success, decrypted_bytes, orig_filename = decrypt_file_bytes(
                 encrypted_data, passphrase_dec
             )
 
-            if decrypted_bytes:
+            if is_success and decrypted_bytes:
               st.success("✅ DECRYPTION & INTEGRITY VERIFIED!")
-              # Biar gak crash kalau orig_filename None, watermark tetap aman
-              file_title = (
+              file_label = (
                   str(orig_filename).upper()
                   if orig_filename
                   else "DECRYPTED_FILE"
               )
-              save_name = orig_filename if orig_filename else "decrypted_file"
+              file_name_download = (
+                  str(orig_filename) if orig_filename else "decrypted_file.bin"
+              )
 
               st.download_button(
-                  label=f"💾 DOWNLOAD {file_title}",
+                  label=f"💾 DOWNLOAD {file_label}",
                   data=decrypted_bytes,
-                  file_name=save_name,
+                  file_name=file_name_download,
                   mime="application/octet-stream",
               )
             else:
