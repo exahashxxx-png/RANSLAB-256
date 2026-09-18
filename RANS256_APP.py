@@ -15,14 +15,12 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&display=swap');
     
-    .stApp {
-        background-color: #050811 !important;
-        background-image: 
-            linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px) !important;
-        background-size: 30px 30px !important;
-        color: #e2e8f0 !important;
-    }
+.stApp {
+    background-image: linear-gradient(rgba(3, 7, 18, 0.85), rgba(3, 7, 18, 0.85)), url('bg_cyber.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+}
     
     h1, h2, h3, h4, .stCaption {
         font-family: 'Orbitron', sans-serif !important;
