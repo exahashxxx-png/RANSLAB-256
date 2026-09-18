@@ -15,13 +15,41 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&display=swap');
     
-.stApp {
-    background-image: linear-gradient(rgba(3, 7, 18, 0.85), rgba(3, 7, 18, 0.85)), url('bg_cyber.jpg') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
-}
-    
+import base64
+import streamlit as st
+
+# 1. KONFIGURASI HALAMAN & TAB BROWSER
+st.set_page_config(
+    page_title="RANSLAB-256 Vault", page_icon="shield_logo.png", layout="wide"
+)
+
+
+# 2. FUNCTION LOAD BASE64
+def get_base64_file(file_path):
+  with open(file_path, "rb") as f:
+    return base64.b64encode(f.read()).decode()
+
+
+# 3. BACKGROUND WALLPAPER & CYBERPUNK CSS
+try:
+  bg_b64 = get_base64_file("bg_cyber.png")
+  st.markdown(
+      f"""
+        <style>
+        .stApp {{
+            background-image: linear-gradient(rgba(3, 7, 18, 0.75), rgba(3, 7, 18, 0.75)), url("data:image/png;base64,{bg_b64}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+        }}
+        </style>
+        """,
+      unsafe_allow_html=True,
+  )
+except Exception:
+  pass
+      
     h1, h2, h3, h4, .stCaption {
         font-family: 'Orbitron', sans-serif !important;
     }
