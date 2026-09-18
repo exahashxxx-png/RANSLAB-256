@@ -123,7 +123,7 @@ def get_image_base64(file_path):
 
 try:
   img_b64 = get_image_base64("shield_logo.png")
-  logo_html = f'<img src="data:image/png;base64,{img_b64}" style="height: 52px; vertical-align: middle; margin: 0 8px; transform: translateY(-4px); mix-blend-mode: screen; filter: drop-shadow(0 0 10px #00e5ff);">'
+  logo_html = f'<img src="data:image/png;base64,{img_b64}" style="height: 48px; vertical-align: middle; margin: 0 6px; transform: translateY(-4px);">'
 except Exception:
   logo_html = "🔰"
 
@@ -136,7 +136,6 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-
 # Tabs
 tab_enc, tab_dec = st.tabs(["🔒 ENCRYPT & PUSH TO IPFS", "🔓 FETCH FROM IPFS & DECRYPT"])
 
