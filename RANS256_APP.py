@@ -208,26 +208,27 @@ with tab_dec:
         try:
           encrypted_data = fetch_from_ipfs(cid_input)
           if encrypted_data:
-            # Sesuai fungsi asli ranslab_256: return is_success, decrypted_bytes, original_filename
-            is_success, decrypted_bytes, orig_filename = decrypt_file_bytes(
-                encrypted_data, passphrase_dec
-            )
+            res = decrypt_file_bytes(encrypted_data, passphrase_dec)
 
-            if is_success and decrypted_bytes:
+            # Ekstraksi bytes & filename dengan aman tanpa peduli berapa isi tuple
+            decrypted_bytes = None
+            orig_filename = "decrypted_file.bin"
+
+            if isinstance(res, (tuple, list)):
+              for item in res:
+                if isinstance(item, bytes) and decrypted_bytes is None:
+                  decrypted_bytes = item
+                elif isinstance(item, str):
+                  orig_filename = item
+
+            if decrypted_bytes:
               st.success("✅ DECRYPTION & INTEGRITY VERIFIED!")
-              file_label = (
-                  str(orig_filename).upper()
-                  if orig_filename
-                  else "DECRYPTED_FILE"
-              )
-              file_name_download = (
-                  str(orig_filename) if orig_filename else "decrypted_file.bin"
-              )
+              file_label = str(orig_filename).upper()
 
               st.download_button(
                   label=f"💾 DOWNLOAD {file_label}",
                   data=decrypted_bytes,
-                  file_name=file_name_download,
+                  file_name=str(orig_filename),
                   mime="application/octet-stream",
               )
             else:
