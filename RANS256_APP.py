@@ -5,7 +5,7 @@ from ipfs_engine import push_to_ipfs, fetch_from_ipfs
 # Streamlit Page Config
 st.set_page_config(
     page_title="RANSLAB-256 Vault",
-    page_icon="🔰",
+    page_icon="shield_logo.png",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
@@ -113,12 +113,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Cyber Header
-st.markdown("""
+import base64
+
+
+def get_image_base64(file_path):
+  with open(file_path, "rb") as f:
+    return base64.b64encode(f.read()).decode()
+
+
+try:
+  img_b64 = get_image_base64("shield_logo.png")
+  logo_html = f'<img src="data:image/png;base64,{img_b64}" style="height: 48px; vertical-align: middle; margin: 0 6px; transform: translateY(-4px);">'
+except Exception:
+  logo_html = "🔰"
+
+st.markdown(
+    f"""
 <div class="cyber-header">
-    <div class="cyber-title">RANS🔰LAB-256</div>
+    <div class="cyber-title">RANS{logo_html}LAB-256</div>
     <div class="cyber-subtitle">// QUANTUM-RESISTANT ZERO-KNOWLEDGE IPFS VAULT</div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Tabs
 tab_enc, tab_dec = st.tabs(["🔒 ENCRYPT & PUSH TO IPFS", "🔓 FETCH FROM IPFS & DECRYPT"])
