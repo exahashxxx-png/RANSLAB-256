@@ -3,11 +3,11 @@ import streamlit as st
 from ipfs_engine import fetch_from_ipfs, push_to_ipfs
 from ranslab_256 import decrypt_file_bytes, encrypt_file_bytes
 
-# 1. STREAMLIT PAGE CONFIG (WAJIB PALING ATAS & CUMA 1)
+# 1. STREAMLIT PAGE CONFIG (MELEBAR/WIDE BIAR PAS SAMA BACKGROUND)
 st.set_page_config(
     page_title="RANSLAB-256 Vault",
     page_icon="shield_logo.png",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="collapsed",
 )
 
@@ -27,7 +27,7 @@ bg_style = ""
 if bg_b64:
   bg_style = f"""
     .stApp {{
-        background-image: linear-gradient(rgba(3, 7, 18, 0.75), rgba(3, 7, 18, 0.75)), url("data:image/png;base64,{bg_b64}") !important;
+        background-image: linear-gradient(rgba(3, 7, 18, 0.70), rgba(3, 7, 18, 0.70)), url("data:image/png;base64,{bg_b64}") !important;
         background-size: cover !important;
         background-position: center !important;
         background-repeat: no-repeat !important;
@@ -42,8 +42,14 @@ st.markdown(
 
 {bg_style}
 
-.stApp {{
-    color: #e2e8f0 !important;
+/* BIKIN TEKS LABEL INPUT JADI CYAN NEON MENYALA */
+label, .stWidgetLabel, label p {{
+    color: #00e5ff !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 0.95rem !important;
+    font-weight: bold !important;
+    letter-spacing: 1.5px !important;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5) !important;
 }}
 
 h1, h2, h3, h4, .stCaption {{
@@ -56,28 +62,28 @@ p, input, button, .stButton>button {{
 
 .cyber-header {{
     text-align: center;
-    padding: 20px 0 10px 0;
+    padding: 10px 0 20px 0;
 }}
 
 .cyber-title {{
     font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
+    font-size: 3.2rem;
     font-weight: 800;
     letter-spacing: 2px;
     color: #ffffff;
-    text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
 }}
 
 .cyber-subtitle {{
     color: #00e5ff;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     letter-spacing: 3px;
     margin-top: 5px;
 }}
 
 .stTabs [data-baseweb="tab-list"] {{
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
 }}
 
@@ -88,24 +94,32 @@ p, input, button, .stButton>button {{
     border-radius: 8px 8px 0px 0px;
     color: #94a3b8;
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.85rem;
-    border: 1px solid rgba(0, 229, 255, 0.2);
+    font-size: 0.9rem;
+    border: 1px solid rgba(0, 229, 255, 0.3);
 }}
 
 .stTabs [aria-selected="true"] {{
-    background-color: rgba(0, 229, 255, 0.15) !important;
+    background-color: rgba(0, 229, 255, 0.2) !important;
     color: #00e5ff !important;
     border-bottom: 2px solid #00e5ff !important;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+}}
+
+/* CONTAINER AGAR TIDAK TERLALU MENTOK PINGGIR TAPI MELEBAR PROPORSIONAL */
+.main .block-container {{
+    max-width: 900px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }}
 </style>
 """,
     unsafe_allow_html=True,
 )
 
-# 4. HEADER WITH 3D METALLIC SHIELD LOGO (PRECISION IN-BETWEEN RANS & LAB-256)
+# 4. HEADER WITH 3D METALLIC SHIELD LOGO
 shield_b64 = get_base64_file("shield_logo.png")
 if shield_b64:
-  logo_html = f'<img src="data:image/png;base64,{shield_b64}" style="height: 50px; vertical-align: middle; margin: 0 8px; transform: translateY(-4px); filter: drop-shadow(0 0 8px #00e5ff);">'
+  logo_html = f'<img src="data:image/png;base64,{shield_b64}" style="height: 52px; vertical-align: middle; margin: 0 8px; transform: translateY(-4px); filter: drop-shadow(0 0 10px #00e5ff);">'
 else:
   logo_html = "🔰"
 
