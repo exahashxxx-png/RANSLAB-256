@@ -210,18 +210,19 @@ with tab_dec:
           if encrypted_data:
             res = decrypt_file_bytes(encrypted_data, passphrase_dec)
 
-            # Ekstraksi bytes & filename dengan aman tanpa peduli berapa isi tuple
+            # Ekstraksi independen tanpa bergantung pada flag boolean
             decrypted_bytes = None
             orig_filename = "decrypted_file.bin"
 
             if isinstance(res, (tuple, list)):
               for item in res:
-                if isinstance(item, bytes) and decrypted_bytes is None:
+                if isinstance(item, bytes):
                   decrypted_bytes = item
-                elif isinstance(item, str):
+                elif isinstance(item, str) and item != "":
                   orig_filename = item
 
-            if decrypted_bytes:
+            # Jika data bytes ditemukan, proses download langsung dibuka
+            if decrypted_bytes and len(decrypted_bytes) > 0:
               st.success("✅ DECRYPTION & INTEGRITY VERIFIED!")
               file_label = str(orig_filename).upper()
 
