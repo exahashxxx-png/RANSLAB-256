@@ -170,9 +170,16 @@ with tab_enc:
       with st.spinner("Locking file & Pushing payload to IPFS..."):
         try:
           file_bytes = uploaded_file.read()
-          encrypted_payload = encrypt_file_bytes(file_bytes, passphrase_enc)
-          filename_ranslab = f"{uploaded_file.name}.ranslab"
 
+          # Memeriksa apakah encrypt_file_bytes menerima original filename
+          try:
+            encrypted_payload = encrypt_file_bytes(
+                file_bytes, passphrase_enc, orig_filename=uploaded_file.name
+            )
+          except TypeError:
+            encrypted_payload = encrypt_file_bytes(file_bytes, passphrase_enc)
+
+          filename_ranslab = f"{uploaded_file.name}.ranslab"
           cid = push_to_ipfs(encrypted_payload, filename_ranslab)
 
           if cid:
@@ -210,19 +217,20 @@ with tab_dec:
           if encrypted_data:
             res = decrypt_file_bytes(encrypted_data, passphrase_dec)
 
-            # Ekstraksi independen tanpa bergantung pada flag boolean
             decrypted_bytes = None
             orig_filename = "decrypted_file.bin"
 
+            # Parse aman hasil kembalian backend
             if isinstance(res, (tuple, list)):
               for item in res:
-                if isinstance(item, bytes):
+                if isinstance(item, bytes) and len(item) > 0:
                   decrypted_bytes = item
                 elif isinstance(item, str) and item != "":
                   orig_filename = item
+            elif isinstance(res, bytes):
+              decrypted_bytes = res
 
-            # Jika data bytes ditemukan, proses download langsung dibuka
-            if decrypted_bytes and len(decrypted_bytes) > 0:
+            if decrypted_bytes:
               st.success("✅ DECRYPTION & INTEGRITY VERIFIED!")
               file_label = str(orig_filename).upper()
 
