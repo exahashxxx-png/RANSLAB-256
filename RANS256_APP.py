@@ -208,7 +208,7 @@ with tab_dec:
         try:
           encrypted_data = fetch_from_ipfs(cid_input)
           if encrypted_data:
-            decrypted_bytes, orig_filename *rest = decrypt_file_bytes(
+            decrypted_bytes, orig_filename, *rest = decrypt_file_bytes(
                 encrypted_data, passphrase_dec
             )
 
